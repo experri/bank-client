@@ -1,13 +1,58 @@
 package com.example.bank_client.repository;
 
-import java.util.List;
+import com.example.bank_client.entity.Customer;
+import org.springframework.stereotype.Repository;
 
-public interface CustomerDAO<T> {
-    T save(T obj);
-    boolean delete(T obj);
-    void deleteAll(List<T> entities);
-    void saveAll(List<T> entities);
-    List<T> findAll();
-    boolean deleteById(long id);
-    T getOne(long id);
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
+
+@Repository
+public class CustomerDAO implements Dao<Customer> {
+    private final List<Customer> customers = new ArrayList<>();
+    private final AtomicLong idGenerator = new AtomicLong(1);
+
+    @Override
+    public Customer save(Customer customer) {
+        customer.setId(idGenerator.getAndIncrement());
+        customers.add(customer);
+        return customer;
+    }
+
+    @Override
+    public boolean delete(Customer customer) {
+        return customers.removeIf(c -> c.getId() == customer.getId());
+    }
+
+    @Override
+    public void deleteAll(List<Customer> entities) {
+        customers.removeAll(entities);
+    }
+
+    @Override
+    public void saveAll(List<Customer> entities) {
+        for (Customer customer : entities) {
+            save(customer);
+        }
+    }
+
+    @Override
+    public List<Customer> findAll() {
+        return new ArrayList<>(customers);
+    }
+
+    @Override
+    public boolean deleteById(long id) {
+        return customers.removeIf(c -> c.getId() == id);
+    }
+
+    @Override
+    public Customer getOne(long id) {
+        return customers.stream()
+                .filter(c -> c.getId() == id)
+                .findFirst()
+                .orElse(null);
+    }
 }
+
+
