@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 public class CustomerService {
     private final CustomerDAO customerDAO;
-    private Long customerId = 1L;
+    private Long customerId = 0L;
     private final List<Customer> customers = new ArrayList<>();
 
     public CustomerService(CustomerDAO customerDao) {

@@ -2,6 +2,7 @@ package com.example.bank_client.service;
 
 
 import com.example.bank_client.entity.Account;
+import com.example.bank_client.entity.Customer;
 import com.example.bank_client.repository.AccountDAO;
 import org.springframework.stereotype.Service;
 
@@ -11,14 +12,22 @@ import java.util.Optional;
 
 @Service
 public class AccountService {
+    private Long accountId = 0L;
     private final AccountDAO accountDAO;
+    private final List<Account> accounts = new ArrayList<>();
 
     public AccountService(AccountDAO accountDAO) {
         this.accountDAO = accountDAO;
     }
 
-    public List<Account> findAllAccounts() {
-        return new ArrayList<>(accountDAO.findAll());
+    public List<Account> getAllAccounts() {
+        return this.accounts;
+    }
+    public List<Account> addAccount(Account account) {
+        accountId++;
+        account.setId(accountId);
+        this.accounts.add(account);
+        return this.accounts;
     }
 
     public Account saveAccount(Account account) {
