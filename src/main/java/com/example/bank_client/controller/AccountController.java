@@ -3,14 +3,12 @@ package com.example.bank_client.controller;
 
 import com.example.bank_client.entity.Account;
 import com.example.bank_client.service.AccountService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/account")
+@RequestMapping("api/accounts")
 public class AccountController {
 private final AccountService accountService;
 
@@ -23,8 +21,8 @@ private final AccountService accountService;
         accountService.findAllAccounts();
     }
 
-    @GetMapping("/save")
-    public void saveAccount(Account account) {
+    @PostMapping("/save")
+    public void saveAccount(@RequestBody Account account) {
         accountService.saveAccount(account);
     }
 

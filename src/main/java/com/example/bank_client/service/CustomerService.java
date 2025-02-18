@@ -32,7 +32,7 @@ public class CustomerService {
     }
 
     public List<Customer> getAllCustomers() {
-        return customerDAO.findAll();
+        return this.customers;
     }
 
     public Customer getCustomerById(long id) {

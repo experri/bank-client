@@ -59,7 +59,8 @@ public class Account {
         GBP
     }
 
-    public Account(Currency currency, Customer customer){
+    public Account(Long id, Currency currency, Customer customer){
+        this.id = id;
         this.number = UUID.randomUUID().toString();
         this.currency = currency;
         this.customer = customer;
