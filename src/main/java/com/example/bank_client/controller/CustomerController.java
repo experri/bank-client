@@ -20,14 +20,16 @@ public class CustomerController {
         return customerService.getAllCustomers();
     }
 
-    @PostMapping
-    public List<Customer> addCustomer(@RequestBody Customer customer) {
-        return customerService.addCustomer(customer);
+    @PostMapping("/save")
+    public Customer createCustomer(@RequestBody Customer customer) {
+        return customerService.createCustomer(customer.getName(), customer.getEmail(), customer.getAge());
     }
 
+    @GetMapping("/{id}")
     public Customer findCustomerById(long id) {
         return customerService.getCustomerById(id);
     }
+
 
     public boolean deleteCustomer(long id) {
         return customerService.removeCustomer(id);

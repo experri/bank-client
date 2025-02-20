@@ -5,16 +5,13 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
 public class CustomerDAO implements Dao<Customer> {
     private final List<Customer> customers = new ArrayList<>();
-    private final AtomicLong idGenerator = new AtomicLong(1);
 
     @Override
     public Customer save(Customer customer) {
-        customer.setId(idGenerator.getAndIncrement());
         customers.add(customer);
         return customer;
     }
@@ -38,7 +35,7 @@ public class CustomerDAO implements Dao<Customer> {
 
     @Override
     public List<Customer> findAll() {
-        return new ArrayList<>(customers);
+        return customers;
     }
 
     @Override

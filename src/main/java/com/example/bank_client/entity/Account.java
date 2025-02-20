@@ -4,6 +4,7 @@ package com.example.bank_client.entity;
 import java.util.UUID;
 
 public class Account {
+    private static long idCounter = 0;
     private Long id;
     private String number;
     private Currency currency;
@@ -51,19 +52,15 @@ public class Account {
         this.customer = customer;
     }
 
-    public enum Currency {
-        UAH,
-        USD,
-        EUR,
-        CHF,
-        GBP
-    }
+    public Account(){}
 
-    public Account(Long id, Currency currency, Customer customer){
-        this.id = id;
+    public Account(Currency currency, Customer customer){
+        this.id = idCounter++;
         this.number = UUID.randomUUID().toString();
         this.currency = currency;
+        this.balance = 0.0;
         this.customer = customer;
+        customer.addAccount(this);
     }
     public void deposit(double amount) {
         if (amount > 0) {
@@ -85,6 +82,7 @@ public class Account {
                 "accountNumber='" + number + '\'' +
                 ", currency=" + currency +
                 ", balance=" + balance +
+                ", customer=" + customer +
                 '}';
     }
 }

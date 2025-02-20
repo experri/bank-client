@@ -12,27 +12,19 @@ import java.util.Optional;
 @Service
 public class CustomerService {
     private final CustomerDAO customerDAO;
-    private Long customerId = 0L;
-    private final List<Customer> customers = new ArrayList<>();
 
     public CustomerService(CustomerDAO customerDao) {
         this.customerDAO = customerDao;
     }
-    public Optional<Customer> getCustomerById(Long id) {
-        return this.customers.stream().filter((customer ->  customer.getId().equals(id))).findFirst();
-    }
-    public List<Customer> addCustomer(Customer customer) {
-        customerId++;
-        customer.setId(customerId);
-        this.customers.add(customer);
-        return this.customers;
-    }
-    public List<Customer> getCustomers() {
-        return this.customers;
+
+    public Customer createCustomer(String name, String email, Integer age) {
+        Customer customer = new Customer(name, email, age);
+        return customerDAO.save(customer);
     }
 
+
     public List<Customer> getAllCustomers() {
-        return this.customers;
+        return customerDAO.findAll();
     }
 
     public Customer getCustomerById(long id) {

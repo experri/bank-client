@@ -2,6 +2,7 @@ package com.example.bank_client.controller;
 
 
 import com.example.bank_client.entity.Account;
+import com.example.bank_client.entity.Currency;
 import com.example.bank_client.entity.Customer;
 import com.example.bank_client.service.AccountService;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +23,9 @@ private final AccountService accountService;
         return accountService.getAllAccounts();
     }
 
-    @PostMapping
-    public List<Account> addAccount(@RequestBody Account account) {
-        return accountService.addAccount(account);
+    @PostMapping("/save")
+    public Account createAccount(@RequestBody Currency currency, @RequestBody long customerId) {
+        return accountService.createAccount(currency, customerId);
     }
 
     @GetMapping("/delete")

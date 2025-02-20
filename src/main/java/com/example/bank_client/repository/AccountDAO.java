@@ -1,21 +1,21 @@
 package com.example.bank_client.repository;
 
 import com.example.bank_client.entity.Account;
+import com.example.bank_client.entity.Customer;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
 public class AccountDAO implements Dao<Account> {
+    private Long accountId = 0L;
+    private Customer customer;
     private final List<Account> accounts = new ArrayList<>();
-    private final AtomicLong idGenerator = new AtomicLong(1);
 
     @Override
     public Account save(Account account) {
-        account.setId(idGenerator.getAndIncrement());
         accounts.add(account);
         return account;
     }
@@ -39,7 +39,7 @@ public class AccountDAO implements Dao<Account> {
 
     @Override
     public List<Account> findAll() {
-        return new ArrayList<>(accounts);
+        return accounts;
     }
 
     @Override

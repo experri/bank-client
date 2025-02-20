@@ -1,24 +1,31 @@
 package com.example.bank_client.entity;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 
-
 public class Customer {
+
+    private static long idCounter = 0;
     private Long id;
     private String name;
     private String email;
     private Integer age;
-    private List<Account> accounts;
+    private List<Account> accounts = new ArrayList<>();
 
 
-    public Customer(Long id, String name, String email, Integer age){
-        this.id = id;
+    public Customer(){}
+
+    public Customer(String name, String email, Integer age){
+        this.id = idCounter++;
         this.name = name;
         this.email = email;
         this.age = age;
+    }
+    public void addAccount(Account account) {
+        accounts.add(account);
     }
 
     public Long getId() {

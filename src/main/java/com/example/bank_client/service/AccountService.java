@@ -2,8 +2,10 @@ package com.example.bank_client.service;
 
 
 import com.example.bank_client.entity.Account;
+import com.example.bank_client.entity.Currency;
 import com.example.bank_client.entity.Customer;
 import com.example.bank_client.repository.AccountDAO;
+import com.example.bank_client.repository.CustomerDAO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,25 +14,25 @@ import java.util.Optional;
 
 @Service
 public class AccountService {
-    private Long accountId = 0L;
     private final AccountDAO accountDAO;
-    private final List<Account> accounts = new ArrayList<>();
+    private final CustomerDAO customerDAO;
+
 
     public AccountService(AccountDAO accountDAO) {
         this.accountDAO = accountDAO;
+        this.customerDAO = new CustomerDAO();
     }
 
     public List<Account> getAllAccounts() {
-        return this.accounts;
-    }
-    public List<Account> addAccount(Account account) {
-        accountId++;
-        account.setId(accountId);
-        this.accounts.add(account);
-        return this.accounts;
+        return accountDAO.findAll();
     }
 
-    public Account saveAccount(Account account) {
+    public  Account createAccount(Currency currency, long customerId) {
+        Customer customer = customerDAO.getOne(customerId);
+        if (customer == null) {
+            throw new IllegalArgumentException("Customer not found");
+        }
+        Account account = new Account(currency, customer);
         return accountDAO.save(account);
     }
 
